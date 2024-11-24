@@ -1,3 +1,6 @@
 [submodule "vufind-configs"]
 	path = vufind-configs
 	url = https://github.com/fly304625/vufind-configs.git
+[submodule "vufind"]
+	path = vufind
+	url = https://github.com/vufind-org/vufind.git
