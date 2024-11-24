@@ -1,7 +1,6 @@
 services:
   vufind-database:
     container_name: ${DB_HOST_NAME}
-    platform: linux/arm64
     build:
       context: .
       dockerfile: docker-db/Dockerfile
@@ -19,17 +18,17 @@ services:
       - "3366:3306"
     volumes:
       - ./docker-db/data:/var/lib/mysql
+      - ./docker-db/my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - network_1
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   vufind-application:
     container_name: vufind_app
-    platform: linux/arm64
     build:
       context: .
       dockerfile: docker-application/Dockerfile
@@ -40,7 +39,10 @@ services:
       MYSQL_DATABASE_NAME: ${DB_NAME}
       MYSQL_USER_NAME: ${DB_USER_NAME}
       MYSQL_USER_PASSWORD: ${DB_USER_PASSWORD}
-      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9000
+      XDEBUG_MODE: develop,debug
+      XDEBUG_CLIENT_HOST: host.docker.internal
+      XDEBUG_CLIENT_PORT: 9000
+      XDEBUG_START_WITH_REQUEST: yes
       PYTHONUNBUFFERED: 1
     depends_on:
       vufind-database:
