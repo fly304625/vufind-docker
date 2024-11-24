@@ -1,7 +1,0 @@
-[submodule "vufind"]
-	path = vufind
-	url = https://github.com/vufind-org/vufind
-[submodule "vufind-configs"]
-	path = vufind-configs
-	url = https://github.com/fly304625/vufind-configs
-	branch = master
