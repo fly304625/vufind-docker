@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
   vufind-database:
     container_name: ${DB_HOST_NAME}
